@@ -20,12 +20,14 @@ To develop a Django-based web application that performs CRUD (Create, Read, Upda
 ## PROGRAM
 ```
 models.py
+
 from django.db import models
 class Student(models.Model):
     name = models.CharField(max_length=100)
     course = models.CharField(max_length=100)
 
-myapp/forms.py
+forms.py
+
 from django import forms
 from .models import Student
 class StudentForm(forms.ModelForm):
@@ -34,6 +36,7 @@ class StudentForm(forms.ModelForm):
         fields = '__all__'
 
 views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Student
 from .forms import StudentForm
@@ -82,6 +85,23 @@ urlpatterns = [
     path('update/<int:id>/', views.update, name='update'),
     path('delete/<int:id>/', views.delete, name='delete'),
 ]
+
+.html
+
+<form method="POST">{% csrf_token %}{{ form.as_p }}<button>Save</button></form>
+
+read.html
+
+<a href="/create/">Add</a>
+{% for i in data %}
+{{ i.name }} - {{ i.course }} 
+<a href="/update/{{ i.id }}/">Edit</a>
+<a href="/delete/{{ i.id }}/">Delete</a><br>
+{% endfor %}
+
+update.html
+
+<form method="POST">{% csrf_token %}{{ form.as_p }}<button>Save</button></form>
 ```
 ## OUTPUT
 <img width="1454" height="675" alt="{BA7916A7-ED86-49F9-A4B6-18715085F421}" src="https://github.com/user-attachments/assets/83f7996d-50df-4f2f-9f9c-45f5d7e51a55" />
